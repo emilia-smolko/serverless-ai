@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      background-image: url("cloud.png");
+      background-size: cover;
+      background-repeat: no-repeat, repeat;
+      resize: both;
+      overflow: scroll;
+      color: white;
+      font-size: 20px;
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    body,
+    input,
+    textarea {
+      font-family: 'Helvetica', Arial, Lucida Grande, sans-serif;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    button {
+      border-radius: 12px;
+      border: 2px solid #e17c24;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #e17c24;
+      color: white;
+      transition-duration: 0.2s;
+    }
+
+    button:hover {
+      background-color: white;
+      color: black;
+    }
+
+    input[type=text] {
+      width: 292px;
+      border: 2px solid #e17c24;
+      border-radius: 6px;
+    }
+
+    textarea {
+      width: 300px;
+      height: 150px;
+      padding: 12px 20px;
+      box-sizing: border-box;
+      border: 2px solid #e17c24;
+      border-radius: 6px;
+      background-color: #f8f8f8;
+      resize: none;
+    }
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    endpoint = "<APIGatewayEndpoint>";
+      function myapp(n){      
+        $("#player").attr("src", "");
+        inputText = $("#inputText").val();
+        inputImage = $("#inputImage").val();
+        inputPhoneNumber = $("#inputPhoneNumber").val();
+        data = JSON.stringify({ "text": inputText, "image": inputImage, "phone": inputPhoneNumber, "type": n })
+        $.post(endpoint, data,
+          function (data, status) {
+            $("#player").attr("src", data);
+          });
+      }
+  </script>
+</head>
+
+<body>
+  <div style="width:100%; margin:0 auto;">
+    <table style="text-align:right; margin:0 auto;">
+      <tr>
+        <td>Tekst [pl,en,de,fr]:</td>
+        <td><textarea id="inputText"></textarea></td>
+      </tr>
+      <tr>
+        <td>Link do zdjęcia [.jpg]:</td>
+        <td><input id="inputImage" type="text" /></td>
+      </tr>
+      <tr>
+        <td>Numer telefonu:</td>
+        <td><input id="inputPhoneNumber" type="text" maxlength="9" pattern="[0-9]{9}" /></td>
+      </tr>
+
+    </table>
+  </div>
+  <button id="play_button" onclick="myapp(1)" >Załaduj do playera!</button>
+  <button id="sms_button" onclick="myapp(2)">Wyślij SMS!</button>
+  <button id="call_button" onclick="myapp(3)">Zadzwoń!</button>
+
+  </br></br>
+  <audio controls id="player">
+    <source src="" type="audio/mpeg">
+  </audio>
+
+</body>
+
+</html>
